@@ -48,3 +48,13 @@ Control dinámico de tasa de aprendizaje e iteraciones vía sliders.
 Se monitorizó el error total por época, converge a 0 en ~45 épocas.
 
 Precisión final alcanza 100% con frontera aprendida coincidiendo con la verdadera
+
+# USO
+
+Instala Mesa versión 0.8.9:
+
+pip install mesa==0.8.9
+
+python perceptron_mesa.py
+
+
