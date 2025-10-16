@@ -58,12 +58,12 @@ class PerceptronAgent(Agent):
             self.model.running = False
 
     def get_decision_boundary(self, x_range):
-        # Retorna x, y de frontera de decisión
+        
         if abs(self.weights[1]) > 1e-10:
             xs = np.linspace(x_range[0], x_range[1], 100)
             ys = -(self.weights[0]*xs + self.bias) / self.weights[1]
             return xs, ys
-        # Vertical
+    
         xs = np.full(100, -self.bias / self.weights[0] if abs(self.weights[0]) > 1e-10 else 0)
         ys = np.linspace(x_range[0], x_range[1], 100)
         return xs, ys
@@ -162,10 +162,10 @@ class PerceptronUI:
 
     def _update(self):
         m = self.model
-        # Limpiar
+      
         self.ax.clear()
         self.ax_err.clear()
-        # Puntos y frontera
+  
         data = [a for a in m.schedule.agents if isinstance(a, DataPointAgent)]
         for a in data:
             mk = 'o' if a.label == -1 else '^'
@@ -174,7 +174,7 @@ class PerceptronUI:
         self.ax.plot(xs, ys, 'g-')
         self.ax.set_title(f'Época {m.perc.epoch}')
         self.ax.grid(True)
-        # Error
+      
         self.ax_err.plot(range(len(m.perc.errors)), m.perc.errors, 'r-')
         self.ax_err.set_xlabel('Época')
         self.ax_err.set_ylabel('Error')
