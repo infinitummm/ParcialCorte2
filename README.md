@@ -57,4 +57,116 @@ pip install mesa==0.8.9
 
 python perceptron_mesa.py
 
+## PUNTO 2
+
+Calculadora Basada en el Paradigma de Agentes (Mesa)
+Este repositorio implementa una calculadora distribuida donde cada operación aritmética es gestionada por un agente autónomo. Utiliza el framework Mesa 0.8.9 para modelar agentes, mensajes y coordinación, y ofrece una interfaz gráfica en Tkinter para interactuar y visualizar la comunicación entre agentes.
+
+Diseño de la Solución
+La arquitectura se basa en agentes especializados y un sistema de mensajes asíncrono:
+
+- IOAgent (ID 0)
+
+   - Recibe expresiones del usuario
+
+   - Envía la expresión al ParserAgent
+
+   - Muestra el resultado final
+
+- ParserAgent (ID 1)
+
+   - Tokeniza y convierte infix a postfix
+
+   - Coordina precedencia de operadores
+
+   - Envía tareas a los agentes de operación
+
+   - Ensambla resultados parciales
+
+- OperationAgents
+
+   - SumAgent (ID 2): Sumas
+
+   - SubAgent (ID 3): Restas
+
+   - MulAgent (ID 4): Multiplicaciones
+
+   - DivAgent (ID 5): Divisiones (gestiona división por cero)
+
+   - PowAgent (ID 6): Potenciaciones
+
+- MessageQueue
+
+   - Cola de mensajes con timestamps
+
+   - Identificación de emisor y receptor
+
+   - Tipos de mensaje: parse_expression, perform_operation, operation_result, final_result
+
+<img width="4770" height="3543" alt="image" src="https://github.com/user-attachments/assets/5cf5e86b-2087-4380-804f-ab2240fcd226" />
+
+
+Capturas de Pantalla de la Simulación
+
+La siguiente imagen muestra la interfaz principal, la comunicación paso a paso y las estadísticas generadas durante el cálculo de expresiones:
+
+<img width="4769" height="3543" alt="image" src="https://github.com/user-attachments/assets/d0289316-572d-494f-aa2d-204c14c2b5d3" />
+
+
+Uso
+Requisitos
+bash
+pip install mesa==0.8.9 numpy matplotlib tk
+Ejecución
+Clona o descarga este repositorio.
+
+Ejecuta la aplicación:
+
+bash
+python calculadora_agentes_mesa.py
+En la interfaz:
+
+Ingresa la expresión matemática (enteros o decimales, con soporte de + - * / ** ( )).
+
+Presiona Calcular para iniciar el proceso.
+
+Presiona Limpiar para reiniciar la entrada y los resultados.
+
+Arquitectura Técnica y Comunicación
+Flujo de Procesamiento
+IOAgent envía parse_expression al ParserAgent
+
+ParserAgent convierte a notación postfix y envía perform_operation al agente correspondiente
+
+OperationAgent realiza la operación y devuelve operation_result al ParserAgent
+
+ParserAgent envía final_result al IOAgent
+
+Ejemplo para 2 + 3 * 4:
+
+text
+1. IOAgent → ParserAgent: parse_expression("2 + 3 * 4")
+2. ParserAgent → MulAgent: perform_operation(3, 4)
+3. MulAgent → ParserAgent: operation_result(12)
+4. ParserAgent → SumAgent: perform_operation(2, 12)
+5. SumAgent → ParserAgent: operation_result(14)
+6. ParserAgent → IOAgent: final_result(14)
+Manejo de Precedencia
+Potencia (**): Precedencia más alta
+
+Multiplicación/División (*, /): Precedencia media
+
+Suma/Resta (+, -): Precedencia más baja
+
+Resultados Obtenidos
+Procesamiento correcto de expresiones básicas y complejas (con paréntesis).
+
+Soporta números enteros y decimales.
+
+Maneja división por cero devolviendo inf.
+
+Comunicación visible en la interfaz para depuración y aprendizaje.
+
+
+
 
