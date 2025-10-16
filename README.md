@@ -24,9 +24,9 @@ Visualización Tkinter: Interfaz con sliders para tasa de aprendizaje e iteracio
 3. Informe Técnico
 3.1 Funcionamiento del Perceptrón
 El perceptrón clasifica puntos linealmente separables mediante la función de activación:
-[activation = w_1 x_1 + w_2 x_2 + bias]
+$activation = w_1 x_1 + w_2 x_2 + bias$
 La predicción es:
-[y = \begin{cases} +1 & activation \ge 0 \ -1 & activation < 0 \end{cases}]
+$y = \begin{cases} +1 & activation \ge 0 \ -1 & activation < 0 \end{cases}$
 Los pesos y el bias se actualizan según:
 [w_i \leftarrow w_i + \alpha (d - y) x_i]
 [bias \leftarrow bias + \alpha (d - y)]
