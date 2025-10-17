@@ -113,17 +113,20 @@ La siguiente imagen muestra la interfaz principal, la comunicación paso a paso 
 <img width="4769" height="3543" alt="image" src="https://github.com/user-attachments/assets/d0289316-572d-494f-aa2d-204c14c2b5d3" />
 
 
-Uso
+
 Requisitos
-bash
+
 pip install mesa==0.8.9 numpy matplotlib tk
+
 Ejecución
+
 Clona o descarga este repositorio.
 
 Ejecuta la aplicación:
 
-bash
-python calculadora_agentes_mesa.py
+
+python CalculadoraAgentes.py
+
 En la interfaz:
 
 Ingresa la expresión matemática (enteros o decimales, con soporte de + - * / ** ( )).
@@ -133,7 +136,9 @@ Presiona Calcular para iniciar el proceso.
 Presiona Limpiar para reiniciar la entrada y los resultados.
 
 Arquitectura Técnica y Comunicación
+
 Flujo de Procesamiento
+
 IOAgent envía parse_expression al ParserAgent
 
 ParserAgent convierte a notación postfix y envía perform_operation al agente correspondiente
