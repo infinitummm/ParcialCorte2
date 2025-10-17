@@ -172,6 +172,286 @@ Maneja división por cero devolviendo inf.
 
 Comunicación visible en la interfaz para depuración y aprendizaje.
 
+## PUNTO 3
+
+# Calculadora Científica Kotlin - Paradigma de Objetos (POO)
+
+Una implementación completa de una calculadora científica utilizando **Programación Orientada a Objetos** en **Kotlin**. Este proyecto demuestra los principios fundamentales de POO: **encapsulamiento**, **herencia**, **polimorfismo** y **abstracción**.
+
+---
+
+##  Características Principales
+
+###  **Operaciones Básicas**
+- Suma, resta, multiplicación, división
+- Sobrecarga de operadores para `Int` y `Double`
+- Manejo robusto de división por cero
+
+###  **Funciones Científicas**
+- **Trigonometría**: sin, cos, tan, asin, acos, atan
+- **Potencias y Raíces**: potencia, raíz cuadrada, raíz cúbica, raíz n-ésima
+- **Logaritmos**: log₁₀, ln, log en base arbitraria
+- **Exponencial**: e^x, factorial, valor absoluto
+
+###  **Funciones de Memoria**
+- **MS**: Guardar en memoria
+- **MR**: Recuperar de memoria  
+- **M+**: Sumar a memoria
+- **M-**: Restar de memoria
+- **MC**: Limpiar memoria
+
+###  **Evaluación de Expresiones**
+- Parser completo para expresiones matemáticas complejas
+- Soporte para paréntesis y precedencia de operadores
+- Ejemplos: `2 + 3 * sin(45) - log(100)`, `(sqrt(16) + 2)^2 / 4`
+
+###  **Configuración Avanzada**
+- Modo de ángulos: radianes o grados
+- Precisión configurable de resultados
+- Historial de operaciones con timestamps
+
+---
+
+##  Diseño de la Solución
+
+<img width="4631" height="3543" alt="uml_calculadora_cientifica" src="https://github.com/user-attachments/assets/d0bb174a-0933-4d8b-af8e-4b4fd1a1abcd" />
+
+
+### **Arquitectura UML**
+
+#### **Clase Base: `Calculadora`**
+```kotlin
+open class Calculadora {
+    private var memoria: Double = 0.0
+    private val historial: MutableList<String> = mutableListOf()
+    
+    // Polimorfismo - Sobrecarga de métodos
+    open fun sumar(a: Int, b: Int): Int
+    open fun sumar(a: Double, b: Double): Double
+    // ... otras operaciones básicas
+}
+```
+
+#### **Clase Derivada: `CalculadoraCientifica`**
+```kotlin
+class CalculadoraCientifica : Calculadora() {
+    private var esRadianes: Boolean = true
+    
+    // Herencia - Extensión de funcionalidades
+    fun seno(angulo: Double): Double
+    fun logaritmoBase10(valor: Double): Double
+    fun evaluarExpresion(expresion: String): Double
+    // ... funciones científicas avanzadas
+}
+```
+
+---
+
+##  Instalación y Uso
+
+### **Requisitos**
+- **Kotlin** 1.9.10+
+- **JVM** 17+
+- **Gradle** 7.0+ (opcional)
+
+### **Ejecutar la Aplicación**
+
+#### **Opción 1: Compilación directa**
+```bash
+kotlinc CalculadoraCientifica.kt -include-runtime -d calculadora.jar
+java -jar calculadora.jar
+```
+
+#### **Opción 2: Con Gradle**
+```bash
+gradle run
+```
+
+### **Interfaz de Consola**
+```
+╔════════════════════════════════════════╗
+║     CALCULADORA CIENTÍFICA KOTLIN      ║
+║        Programación Orientada a        ║
+║             Objetos (POO)              ║
+╚════════════════════════════════════════╝
+
+ Calculadora> 2 + 3 * sin(45) - log(100)
+ Resultado: 3.121
+
+ Calculadora> ayuda
+```
+
+---
+
+##  Capturas de Pantalla
+
+<img width="4770" height="3543" alt="capturas_calculadora_kotlin" src="https://github.com/user-attachments/assets/5ad89613-1cfc-4829-af15-da1a516f8224" />
+
+
+### **Ejemplos de Uso**
+
+#### **Operaciones Básicas**
+```
+Calculadora> 2 + 3 * 4
+ Resultado: 14
+
+ Calculadora> sqrt(16) + log(100)  
+ Resultado: 6
+```
+
+#### **Funciones Científicas**
+```
+ Calculadora> sin(30) + cos(60)
+ Resultado: 1.0
+
+ Calculadora> exp(1) + ln(2.718)
+ Resultado: 3.718
+```
+
+#### **Memoria**
+```
+ Calculadora> ms 42.5
+ Valor 42.5 guardado en memoria
+
+ Calculadora> m+ 7.5
+ Memoria + 7.5 = 50.0
+```
+
+---
+
+##  Principios POO Aplicados
+
+### ** ENCAPSULAMIENTO**
+- **Atributos privados**: `memoria`, `historial`, `esRadianes`  
+- **Métodos públicos**: Interfaz limpia y controlada
+- **Validación interna**: Protección contra valores inválidos
+
+```kotlin
+class CalculadoraCientifica : Calculadora() {
+    private var esRadianes: Boolean = true  //  Encapsulado
+    
+    var modoAngulos: String                 //  Propiedad pública
+        get() = if (esRadianes) "Radianes" else "Grados"
+        set(value) { /* validación */ }
+}
+```
+
+### ** HERENCIA**
+- **Clase base**: `Calculadora` con operaciones fundamentales
+- **Clase derivada**: `CalculadoraCientifica` extiende funcionalidades
+- **Reutilización**: Código base compartido y especializado
+
+```kotlin
+//  Herencia + Override
+override fun formatearResultado(resultado: Double): String {
+    return when {
+        abs(resultado) >= 1e6 -> "%.${precision}e".format(resultado)
+        else -> super.formatearResultado(resultado)  // Llamada al padre
+    }
+}
+```
+
+### ** POLIMORFISMO**
+- **Sobrecarga de métodos**: Misma operación, diferentes tipos
+- **Override**: Comportamiento especializado en clases derivadas  
+- **Operadores**: Extensiones Kotlin elegantes
+
+```kotlin
+//  Polimorfismo - Sobrecarga
+open fun sumar(a: Int, b: Int): Int = a + b
+open fun sumar(a: Double, b: Double): Double = a + b
+
+//  Polimorfismo - Override
+override fun dividir(a: Double, b: Double): Double {
+    if (abs(b) < 1e-10) throw DivisionPorCeroException()
+    return super.dividir(a, b)
+}
+```
+
+### ** ABSTRACCIÓN**
+- **Interfaces simples**: Operaciones complejas ocultas
+- **Manejo de errores**: Excepciones específicas y descriptivas
+- **Parser interno**: Evaluación de expresiones transparente
+
+---
+
+##  Manejo de Excepciones
+
+### **Excepciones Personalizadas**
+```kotlin
+class CalculadoraException(message: String) : Exception(message)
+class DivisionPorCeroException : CalculadoraException("División por cero no permitida")  
+class ValorInvalidoException(mensaje: String) : CalculadoraException("Valor inválido: $mensaje")
+class ExpresionInvalidaException(mensaje: String) : CalculadoraException("Expresión inválida: $mensaje")
+```
+
+### **Casos Controlados**
+-  División por cero
+-  Logaritmos de números negativos
+-  Raíces pares de números negativos  
+-  Expresiones malformadas
+-  Argumentos fuera de rango
+
+---
+
+##  Funcionalidades Avanzadas
+
+### ** Evaluación de Expresiones**
+```kotlin
+ Calculadora> 2 + 3 * sin(45) - log(10)
+ Resultado: 3.121
+
+ Calculadora> (sqrt(16) + 2)^2 / (3 + 1)  
+ Resultado: 9
+```
+
+### ** Sistema de Memoria**
+```kotlin
+ Calculadora> ms 100       // Guardar
+ Calculadora> m+ 50        // Sumar a memoria  
+ Calculadora> mr           // Recuperar: 150
+```
+
+### ** Configuración**
+```kotlin
+ Calculadora> precision 5     // 5 decimales
+ Calculadora> modo grados      // Cambiar a grados
+```
+
+### ** Historial**
+```kotlin
+ Calculadora> historial
+ HISTORIAL DE OPERACIONES:
+2024-10-16T19:30: 2 + 3 * 4 = 14
+2024-10-16T19:31: sqrt(16) = 4
+```
+
+---
+
+##  Ejemplos de Código
+
+### **Uso Básico**
+```kotlin
+val calc = CalculadoraCientifica()
+
+// Operaciones básicas
+val suma = calc.sumar(2.5, 3.7)
+val producto = calc.multiplicar(4, 5)
+
+// Funciones científicas  
+val seno = calc.seno(Math.PI / 2)  // 1.0
+val log = calc.logaritmoBase10(100) // 2.0
+
+// Expresiones complejas
+val resultado = calc.evaluarExpresion("2 + 3 * sin(45)")
+```
+
+### **Manejo de Memoria**
+```kotlin
+calc.memoriaGuardar(42.0)
+calc.memoriaSumar(8.0)
+val valor = calc.memoriaRecuperar()  // 50.0
+```
 
 
 
