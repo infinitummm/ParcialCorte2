@@ -149,7 +149,7 @@ ParserAgent envía final_result al IOAgent
 
 Ejemplo para 2 + 3 * 4:
 
-text
+
 1. IOAgent → ParserAgent: parse_expression("2 + 3 * 4")
 2. ParserAgent → MulAgent: perform_operation(3, 4)
 3. MulAgent → ParserAgent: operation_result(12)
@@ -157,7 +157,7 @@ text
 5. SumAgent → ParserAgent: operation_result(14)
 6. ParserAgent → IOAgent: final_result(14)
 Manejo de Precedencia
-Potencia (**): Precedencia más alta
+Potencia (^): Precedencia más alta
 
 Multiplicación/División (*, /): Precedencia media
 
